@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {expandAll = id; }; 
+            CLASS = MyDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                connsArrayController = NSArrayController; 
+                objectsTreeController = NSTreeController; 
+                olv = NSOutlineView; 
+                tvConns = NSTableView; 
+                tvConnsProps = NSTableView; 
+                tvObsProps = NSTableView; 
+                tvObsProps2 = NSTableView; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }
+    ); 
+    IBVersion = 1; 
+}
