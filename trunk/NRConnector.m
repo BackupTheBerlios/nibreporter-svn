@@ -22,7 +22,6 @@
 		[s appendString:@" \n   is bound to"];
 	else
 		[s appendString:isFlipped ? @" \n   from" : @" \n   to"];
-//xx changed 2 lines at line 36 in file:NibConnector.m
 	if(val = [pOtherObj longName])
 		[s appendString:val];
 return s;

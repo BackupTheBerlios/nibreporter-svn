@@ -4,6 +4,7 @@
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 
 #import "AppController.h"
+#import "MyDocument.h"
 #import "Utils.h"
 
 @implementation AppController
@@ -27,7 +28,13 @@
 	return NO;
 }
 // *****************************************************************************
--(IBAction)	displayNibToolErrors:(id)sender
+-(IBAction)	displayClasses:(id)sender
+{
+	MyDocument *doc = [[NSDocumentController sharedDocumentController] currentDocument];
+	[doc displayClasses];
+}
+// *****************************************************************************
+-(IBAction)	displayNibtoolErrors:(id)sender
 {
 	NSDocument *doc = [[NSDocumentController sharedDocumentController] currentDocument];
 	NSString *errMessage = [doc valueForKey:@"nibtoolErrorMessages"];

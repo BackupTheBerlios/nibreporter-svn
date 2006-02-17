@@ -12,6 +12,10 @@
 		53601C450999115E00D59E7F /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53601C440999115E00D59E7F /* AppController.m */; };
 		53CC2185099EFB0500C78220 /* NRConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 53CC2184099EFB0500C78220 /* NRConnector.m */; };
 		53CC239E09A010FA00C78220 /* NibObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 53CC239D09A010FA00C78220 /* NibObject.m */; };
+		53EF844D09A43CBB007B365E /* NibClassesDialogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53EF844C09A43CBB007B365E /* NibClassesDialogController.m */; };
+		53EF848C09A44167007B365E /* NibClasses.nib in Resources */ = {isa = PBXBuildFile; fileRef = 53EF848A09A44167007B365E /* NibClasses.nib */; };
+		53EF85CF09A47606007B365E /* NibClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 53EF85CE09A47606007B365E /* NibClass.m */; };
+		53EF87AF09A4C9DA007B365E /* MyDocument_LoadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 53EF87AE09A4C9DA007B365E /* MyDocument_LoadData.m */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2E0486D014006FF6A4 /* MyDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */; };
@@ -58,6 +62,12 @@
 		53CC2184099EFB0500C78220 /* NRConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRConnector.m; sourceTree = "<group>"; };
 		53CC239C09A010FA00C78220 /* NibObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NibObject.h; sourceTree = "<group>"; };
 		53CC239D09A010FA00C78220 /* NibObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NibObject.m; sourceTree = "<group>"; };
+		53EF844B09A43CBB007B365E /* NibClassesDialogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NibClassesDialogController.h; sourceTree = "<group>"; };
+		53EF844C09A43CBB007B365E /* NibClassesDialogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NibClassesDialogController.m; sourceTree = "<group>"; };
+		53EF848B09A44167007B365E /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/NibClasses.nib; sourceTree = "<group>"; };
+		53EF85CD09A47606007B365E /* NibClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NibClass.h; sourceTree = "<group>"; };
+		53EF85CE09A47606007B365E /* NibClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NibClass.m; sourceTree = "<group>"; };
+		53EF87AE09A4C9DA007B365E /* MyDocument_LoadData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDocument_LoadData.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Nib Reporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Nib Reporter.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -120,8 +130,13 @@
 				53601C440999115E00D59E7F /* AppController.m */,
 				2A37F4AEFDCFA73011CA2CEA /* MyDocument.h */,
 				2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */,
+				53EF87AE09A4C9DA007B365E /* MyDocument_LoadData.m */,
 				53CC2183099EFB0500C78220 /* NRConnector.h */,
 				53CC2184099EFB0500C78220 /* NRConnector.m */,
+				53EF85CD09A47606007B365E /* NibClass.h */,
+				53EF85CE09A47606007B365E /* NibClass.m */,
+				53EF844B09A43CBB007B365E /* NibClassesDialogController.h */,
+				53EF844C09A43CBB007B365E /* NibClassesDialogController.m */,
 				53CC239C09A010FA00C78220 /* NibObject.h */,
 				53CC239D09A010FA00C78220 /* NibObject.m */,
 				5310D62A099B73D4008AA7E0 /* Utils.h */,
@@ -142,6 +157,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				53EF848A09A44167007B365E /* NibClasses.nib */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
 				2A37F4B4FDCFA73011CA2CEA /* MyDocument.nib */,
@@ -213,6 +229,7 @@
 				8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */,
 				8D15AC2E0486D014006FF6A4 /* MyDocument.nib in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
+				53EF848C09A44167007B365E /* NibClasses.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +247,9 @@
 				5310D62C099B73D4008AA7E0 /* Utils.m in Sources */,
 				53CC2185099EFB0500C78220 /* NRConnector.m in Sources */,
 				53CC239E09A010FA00C78220 /* NibObject.m in Sources */,
+				53EF844D09A43CBB007B365E /* NibClassesDialogController.m in Sources */,
+				53EF85CF09A47606007B365E /* NibClass.m in Sources */,
+				53EF87AF09A4C9DA007B365E /* MyDocument_LoadData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +286,14 @@
 				2A37F4BAFDCFA73011CA2CEA /* English */,
 			);
 			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		53EF848A09A44167007B365E /* NibClasses.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				53EF848B09A44167007B365E /* English */,
+			);
+			name = NibClasses.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

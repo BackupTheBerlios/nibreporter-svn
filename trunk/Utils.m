@@ -21,3 +21,15 @@ void DisplayMsg(NSString *format, ...)
 		}
 }
 // *****************************************************************************
+void SetFontSize(NSTableView* tableView, float fontSize, float heightMultiplier) 
+{
+	NSArray *tcArray = [tableView tableColumns];
+	int kk;
+	for(kk = 0; kk < [tcArray count]; kk++)
+		{  NSCell *dataCell = [[tcArray objectAtIndex:kk] dataCell];
+			[dataCell setFont:[[NSFontManager sharedFontManager] convertFont:[dataCell font] toSize:fontSize]];
+		}
+	int rowHeight = (int)(1.3 * fontSize * heightMultiplier);
+	[tableView setRowHeight:rowHeight];
+}
+// *****************************************************************************

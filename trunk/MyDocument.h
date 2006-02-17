@@ -4,6 +4,7 @@
 //  Copyright __MyCompanyName__ 2006 . All rights reserved.
 
 #import <Cocoa/Cocoa.h>
+#import "NibClassesDialogController.h"
 
 @interface MyDocument : NSDocument
 {
@@ -17,14 +18,11 @@
 	IBOutlet NSTableView		*tvConns;
 	IBOutlet NSTableView		*tvConnsProps;
 
-	IBOutlet NSSplitView    *svH1;
-	IBOutlet NSSplitView    *svH2;
-	IBOutlet NSSplitView    *svV1;
-	IBOutlet NSSplitView    *svV2;
-	
 	IBOutlet NSArrayController	*connsArrayController;
 	IBOutlet NSTreeController	*objectsTreeController;
 	
+	NibClassesDialogController *nibClassesDialogController;
+
 	NSArray	*connectionsSortDescriptors;
 	NSArray	*propertiesSortDescriptors;
 	NSArray	*hierarchySortDescriptors;
@@ -33,17 +31,23 @@
 }
 -(id)				init;
 -(void)			awakeFromNib;
--(void)			creatManagedObjectContext;
--(int)			displayQuotesAlert:(NSString*)filename :(int)line;
+-(IBAction)		collapseAll:(id)sender;
+-(void)			displayClasses;
 -(IBAction)		expandAll:(id)sender;
--(void)			extractPropertiesFromFile:(NSString*)path;
--(void)			loadConnections:(NSDictionary*)connections;
--(void)			loadHierarchy:(NSDictionary*)hierarchy :(NSManagedObject*)parentObject;
--(void)			loadObjects:(NSDictionary*)objects;
 -(void)			outlineViewSelectionDidChange:(NSNotification *)notification;
 -(BOOL)			readFromFileWrapper:(NSFileWrapper*)fileWrapper ofType:(NSString*)typeName error:(NSError**)outError;
--(void)			replaceUnescapedDoubleQuotes:(NSString*)filename;
--(void)			setFontSize:(id)tableView;
 -(void)			windowControllerDidLoadNib:(NSWindowController*)aController;
 -(NSString*)	windowNibName;
 @end
+
+@interface MyDocument (LoadData)
+-(void)			creatManagedObjectContext;
+-(int)			displayQuotesAlert:(NSString*)filename :(int)line;
+-(void)			extractPropertiesFromFile:(NSString*)path;
+-(void)			loadClasses:(NSDictionary*)classes;
+-(void)			loadConnections:(NSDictionary*)connections;
+-(void)			loadHierarchy:(NSDictionary*)hierarchy :(NSManagedObject*)parentObject;
+-(void)			loadObjects:(NSDictionary*)objects;
+-(void)			replaceUnescapedDoubleQuotes:(NSString*)filename;
+@end
+

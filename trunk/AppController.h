@@ -10,7 +10,8 @@
 }
 -(void)		applicationDidFinishLaunching:(NSNotification*)notification;
 -(BOOL)		applicationShouldOpenUntitledFile:(NSApplication *)sender;
--(IBAction)	displayNibToolErrors:(id)sender;
+-(IBAction)	displayClasses:(id)sender;
+-(IBAction)	displayNibtoolErrors:(id)sender;
 -(IBAction) printReport:(id)sender;
 	
 @end

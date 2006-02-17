@@ -5,4 +5,5 @@
 
 #import <Cocoa/Cocoa.h>
 
-void DisplayMsg(NSString* format, ...);
+void	DisplayMsg(NSString* format, ...);
+void	SetFontSize(NSTableView* tableView, float fontSize, float heightMultiplier);

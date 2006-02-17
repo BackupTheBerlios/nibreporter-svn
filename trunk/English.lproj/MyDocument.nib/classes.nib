@@ -2,7 +2,7 @@
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
-            ACTIONS = {expandAll = id; }; 
+            ACTIONS = {collapseAll = id; expandAll = id; }; 
             CLASS = MyDocument; 
             LANGUAGE = ObjC; 
             OUTLETS = {

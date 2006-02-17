@@ -1,7 +1,7 @@
 {
     IBClasses = (
         {
-            ACTIONS = {displayNibToolErrors = id; printReport = id; }; 
+            ACTIONS = {displayClasses = id; displayNibtoolErrors = id; printReport = id; }; 
             CLASS = AppController; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 
