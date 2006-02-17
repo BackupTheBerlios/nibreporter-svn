@@ -109,8 +109,7 @@
 
 	NSString *nibFilename = [fileWrapper filename];
 	if([typeName isEqualToString:@"NibFile"])
-		{	
-			//create an output file for nibtool in directory nibReportsPath
+		{	//create an output file for nibtool in directory nibReportsPath
 			NSString *outfile = [NSString stringWithFormat:@"%@/%@.txt",
 										nibReportsPath, 
 										[[fileWrapper filename] stringByDeletingPathExtension]];
@@ -150,7 +149,6 @@
 					nibtoolErrorMessages = [[NSString alloc] initWithFormat:@"Error messages from nibtool while processing %@\n\n%@", nibFilename, s];
 					DisplayMsg(nibtoolErrorMessages);
 				}
-
 			//process the data and load the InMemory data store
 			[self replaceUnescapedDoubleQuotes:outfile];
 			[self extractPropertiesFromFile:outfile];

@@ -88,7 +88,9 @@ return rc == NSAlertFirstButtonReturn ? 2 : rc == NSAlertSecondButtonReturn ? 1 
 			NSEnumerator *e = [dict keyEnumerator];
 			NSString *key;
 			while(key = [e nextObject])
-				{	if([key isEqualToString:@"CLASS"])
+				{	if(![key length])
+						continue;
+					if([key isEqualToString:@"CLASS"])
 						[mo setValue:[dict valueForKey:key] forKey:@"nibClass"];
 					else if([key isEqualToString:@"SUPERCLASS"])
 						[mo setValue:[dict valueForKey:key] forKey:@"nibSuperClass"];
@@ -104,7 +106,9 @@ return rc == NSAlertFirstButtonReturn ? 2 : rc == NSAlertSecondButtonReturn ? 1 
 							NSEnumerator *eActions = [actions keyEnumerator];
 							NSString *key2;
 							while(key2 = [eActions nextObject])
-								{  NSManagedObject *moAction = [NSEntityDescription insertNewObjectForEntityForName:@"Action" inManagedObjectContext:moc];
+								{  if(![key2 length])
+										continue;
+									NSManagedObject *moAction = [NSEntityDescription insertNewObjectForEntityForName:@"Action" inManagedObjectContext:moc];
 									[moAction setValue:key2 forKey:@"name"];
 									[moAction setValue:[actions valueForKey:key2] forKey:@"type"];
 									[moAction setValue:mo forKey:@"nibClass"];
@@ -120,7 +124,9 @@ return rc == NSAlertFirstButtonReturn ? 2 : rc == NSAlertSecondButtonReturn ? 1 
 							NSEnumerator *eOutlets = [outlets keyEnumerator];
 							NSString *key3;
 							while(key3 = [eOutlets nextObject])
-								{	NSManagedObject *moOutlet = [NSEntityDescription insertNewObjectForEntityForName:@"Outlet" inManagedObjectContext:moc];
+								{	if(![key3 length])
+										continue;
+									NSManagedObject *moOutlet = [NSEntityDescription insertNewObjectForEntityForName:@"Outlet" inManagedObjectContext:moc];
 									[moOutlet setValue:key3 forKey:@"name"];
 									[moOutlet setValue:[outlets valueForKey:key3] forKey:@"type"];
 									[moOutlet setValue:mo forKey:@"nibClass"];
@@ -137,7 +143,9 @@ return rc == NSAlertFirstButtonReturn ? 2 : rc == NSAlertSecondButtonReturn ? 1 
 	NSEnumerator *e = [connections keyEnumerator];
 	NSString *key;
 	while(key = [e nextObject])
-		{	NSManagedObject *mo = [NSEntityDescription insertNewObjectForEntityForName:@"Connection" inManagedObjectContext:moc];
+		{	if(![key length])
+				continue;
+			NSManagedObject *mo = [NSEntityDescription insertNewObjectForEntityForName:@"Connection" inManagedObjectContext:moc];
 			NSArray *words = [key componentsSeparatedByString:@" "];
 			if([words count] != 2)
 				{	DisplayMsg(@"%@\n\nwords count error at line %ld", [[self fileName] lastPathComponent], __LINE__);
@@ -153,7 +161,9 @@ return rc == NSAlertFirstButtonReturn ? 2 : rc == NSAlertSecondButtonReturn ? 1 
 			NSEnumerator *e2 = [properties keyEnumerator];
 			NSString *pKey;
 			while(pKey = [e2 nextObject])
-				{	NSMutableString *propertyValue = [NSMutableString stringWithString:[properties valueForKey:pKey]];
+				{	if(![pKey length])
+						continue;
+					NSMutableString *propertyValue = [NSMutableString stringWithString:[properties valueForKey:pKey]];
 					while([propertyValue rangeOfString:@"  "].location != NSNotFound)
 						[propertyValue replaceOccurrencesOfString:@"  " withString:@" " options:0 range:NSMakeRange(0, [propertyValue length])];
 					if([pKey isEqualToString:@"Class"])
@@ -211,7 +221,9 @@ return rc == NSAlertFirstButtonReturn ? 2 : rc == NSAlertSecondButtonReturn ? 1 
 	NSEnumerator *e = [hierarchy keyEnumerator];
 	NSString *key;
 	while(key = [e nextObject])
-		{	NSArray *words = [key componentsSeparatedByString:@" "];
+		{	if(![key length])
+				continue;
+			NSArray *words = [key componentsSeparatedByString:@" "];
 			if(![words count])
 				continue;
 			//find the object and add a child unless it is a leaf object
@@ -236,7 +248,9 @@ return rc == NSAlertFirstButtonReturn ? 2 : rc == NSAlertSecondButtonReturn ? 1 
 	NSEnumerator *e = [objects keyEnumerator];
 	NSString *key;
 	while(key = [e nextObject])
-		{	NSArray *words = [key componentsSeparatedByString:@" "];
+		{	if(![key length])
+				continue;
+			NSArray *words = [key componentsSeparatedByString:@" "];
 			if([words count] != 2)
 				{	DisplayMsg(@"%@\n\nwords count error at line %ld", [[self fileName] lastPathComponent], __LINE__);
 					continue;
@@ -260,7 +274,9 @@ return rc == NSAlertFirstButtonReturn ? 2 : rc == NSAlertSecondButtonReturn ? 1 
 			NSEnumerator *e2 = [properties keyEnumerator];
 			NSString *pKey;
 			while(pKey = [e2 nextObject])
-				{	NSMutableString *propertyValue = [NSMutableString stringWithString:[properties valueForKey:pKey]];
+				{	if(![pKey length])
+						continue;
+					NSMutableString *propertyValue = [NSMutableString stringWithString:[properties valueForKey:pKey]];
 					while([propertyValue rangeOfString:@"  "].location != NSNotFound)
 						[propertyValue replaceOccurrencesOfString:@"  " withString:@" " options:0 range:NSMakeRange(0, [propertyValue length])];
 					if([pKey isEqualToString:@"Class"])
