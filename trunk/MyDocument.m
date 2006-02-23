@@ -21,11 +21,30 @@
 
 			NSSortDescriptor *sortObjectsByLongName = [[[NSSortDescriptor alloc] initWithKey:@"longName" ascending:YES] autorelease];
 			[self setValue:[NSArray arrayWithObject:sortObjectsByLongName] forKey:@"hierarchySortDescriptors"];
+			
+			// :mattneub:20060223 
+			// setting ivar to autoreleased value without retaining is recipe for disaster
+			// in fact I don't quite why it's been working at all
+			[self->connectionsSortDescriptors retain];
+			[self->propertiesSortDescriptors retain];
+			[self->hierarchySortDescriptors retain];
+
 
 			nibtoolErrorMessages = nil;
 		}
 	return self;
 }
+
+// added dealloc for memory management // :mattneub:20060223 
+- (void) dealloc {
+	[self->connectionsSortDescriptors release];
+	[self->propertiesSortDescriptors release];
+	[self->hierarchySortDescriptors release];
+	[self->nibClassesDialogController release];
+	[self->nibtoolErrorMessages release];
+	[super dealloc];
+}
+
 // *****************************************************************************
 -(void)awakeFromNib
 {
@@ -102,10 +121,17 @@
 -(BOOL)readFromFileWrapper:(NSFileWrapper*)fileWrapper ofType:(NSString *)typeName error:(NSError **)outError
 {
 	NSFileManager *fm = [NSFileManager defaultManager];
-	NSString *nibReportsPath = [@"~/NibReporter_WorkFiles" stringByExpandingTildeInPath];
+	// put working files in temporary items directory, don't shmock up user's stuff // :mattneub:20060223
+	// it is probably something like /var/tmp/folders.501/TemporaryItems
+	// NSString *nibReportsPath = [@"~/NibReporter_WorkFiles" stringByExpandingTildeInPath];
+	NSString *nibReportsPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"NibReporter_WorkFiles"];
 	BOOL isDir = FALSE;
-	if(![fm fileExistsAtPath:nibReportsPath isDirectory:&isDir] && isDir)
-		[fm createDirectoryAtPath:nibReportsPath attributes:nil];
+	// :mattneub:20060223 
+	// next line was meaningless since if test 1 succeeds (no file) test 2 will never be true...
+	// ...and if test 1 fails (there is a file) test 2 will never even be tested
+	// if(![fm fileExistsAtPath:nibReportsPath isDirectory:&isDir] && isDir)
+	// I don't see why we need to test for anything at all, frankly
+	[fm createDirectoryAtPath:nibReportsPath attributes:nil];
 
 	NSString *nibFilename = [fileWrapper filename];
 	if([typeName isEqualToString:@"NibFile"])
@@ -144,18 +170,20 @@
 			[pipeHandle closeFile];	//		
 			pipeHandle = [pipe fileHandleForReading];
 			NSData *data = [pipeHandle readDataToEndOfFile];
-			if([data length])
-				{	NSString *s  = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
-					nibtoolErrorMessages = [[NSString alloc] initWithFormat:@"Error messages from nibtool while processing %@\n\n%@", nibFilename, s];
-					DisplayMsg(nibtoolErrorMessages);
-				}
+			if([data length]) {	
+				NSString *s = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+				// need some sort of memory management policy here; at the very least let's release before setting to alloc'd value
+				[self->nibtoolErrorMessages release];
+				nibtoolErrorMessages = [[NSString alloc] initWithFormat:@"Error messages from nibtool while processing %@\n\n%@", nibFilename, s];
+				DisplayMsg(nibtoolErrorMessages);
+			}
 			//process the data and load the InMemory data store
 			[self replaceUnescapedDoubleQuotes:outfile];
 			[self extractPropertiesFromFile:outfile];
 			NSLog(@"Num Registered Objects in moc = %ld", [[moc registeredObjects] count]);
 			return TRUE;
 		}
-return FALSE;
+	return FALSE;
 }
 // *****************************************************************************
 -(void)windowControllerDidLoadNib:(NSWindowController *) aController

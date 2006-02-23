@@ -13,6 +13,11 @@
 {
 	//DisplayMsg(@"Open a nib file using menu option: \n\nFile - Open or\nFile - Open Recent");
 	NSDocumentController *dc = [NSDocumentController sharedDocumentController];
+	// :mattneub:20060223 
+	// I found this whole automatic-opening foo really annoying:
+	// I'm the user, if I want to open something let me open it
+	// also it was making debugging damned near impossible
+	/*
 	id doc;
 	NSArray *urls = [dc recentDocumentURLs];
 	if([urls count])
@@ -20,6 +25,7 @@
 			doc = [dc openDocumentWithContentsOfURL:[[urls objectAtIndex:0] absoluteURL] display:YES error:&outError];
 		}
 	if(!doc)	
+	 */
 		[dc openDocument:self]; //invoke the file open dialog
 }
 // *****************************************************************************
