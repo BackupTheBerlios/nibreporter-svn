@@ -18,6 +18,10 @@
 	id newStore = [psc addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:nil options:nil error:&error];
 	if(!newStore)
 		NSLog(@"Store Configuration Failure\n%@", ([error localizedDescription] != nil) ? [error localizedDescription] : @"Unknown Error");
+
+	//:KSW 02-Mar-06 added next line - database is read only so do not need undoManager
+	[[moc undoManager] disableUndoRegistration];
+
 }
 // *****************************************************************************
 -(int)displayQuotesAlert:(NSString*)filename :(int)line
@@ -306,9 +310,16 @@ return rc == NSAlertFirstButtonReturn ? 2 : rc == NSAlertSecondButtonReturn ? 1 
 	// - it should not have doubleQuotes before and after the curly braces
 	// - to fix Options simply make the whole thing into a string
 
-	BOOL doItSilently = TRUE; //toggle TRUE/FALSE to display lines in which changes were made
+	BOOL doItSilently = TRUE; //toggle TRUE or FALSE to display nibtool records that have been modified by Nib Reporter
 	BOOL displayAlert = doItSilently ? FALSE : TRUE;
+
 	NSMutableString  *fc = [NSMutableString stringWithContentsOfFile:filename];
+
+	//:KSW 02-Mar-06 added next 2 lines in case menu in nibtool output are for keyboard shortcuts
+	// containing { and } which are not properly output by nibtool and make the nibtool plist invalid
+	[fc replaceOccurrencesOfString:@"\"{\"" withString:@"\"L\"" options:0 range:NSMakeRange(0, [fc length])];
+	[fc replaceOccurrencesOfString:@"\"}\"" withString:@"\"R\"" options:0 range:NSMakeRange(0, [fc length])];
+
 	int *errLines = calloc(0, 0); 
 	int kk, line = 1, nests = 0, numReplaced = 0;
 	UniChar ch;
@@ -335,7 +346,9 @@ return rc == NSAlertFirstButtonReturn ? 2 : rc == NSAlertSecondButtonReturn ? 1 
 											break;
 										case '}':
 										case ')': //to handle the special case for iBDeclaredKeys
-											nests--; 
+											//:KSW 02-Mar-06 added next line to be sure to be sure - should really issue an error message and abort if nests <= 0
+											if(nests > 0)
+												nests--; 
 											break;
 										case ';': 
 										case '=':

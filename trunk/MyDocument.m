@@ -7,6 +7,15 @@
 #import "NRConnector.h"
 #import "Utils.h"
 
+//:KSW 02-Mar-06 - please note the following note on database design:
+//In the datamodel the object and connection property are represented as separete Entities which
+//means that during loading of the data a separate managedObject must be created for each property instance.
+//For a large Nib file the nibtool extract run takes approx 2 seconds and the loading of the 
+//CoreData store takes a further 2 seconds. The time to load the CoreData model can be
+//reduced to 50 milliseconds by archiving the property data for each object into a Dictionary (NSData) attribute
+//and subsequently unarchiving the property data as and when needed. Although the code becomes only slightly
+//more complex I have left it as is to simplify access for report writing by future developers.
+
 @implementation MyDocument
 // *****************************************************************************
 -(id)init
@@ -21,22 +30,16 @@
 
 			NSSortDescriptor *sortObjectsByLongName = [[[NSSortDescriptor alloc] initWithKey:@"longName" ascending:YES] autorelease];
 			[self setValue:[NSArray arrayWithObject:sortObjectsByLongName] forKey:@"hierarchySortDescriptors"];
-			
-			// :mattneub:20060223 
-			// setting ivar to autoreleased value without retaining is recipe for disaster
-			// in fact I don't quite why it's been working at all
-			[self->connectionsSortDescriptors retain];
-			[self->propertiesSortDescriptors retain];
-			[self->hierarchySortDescriptors retain];
-
-
+			// :mattneub:20060223 - added 3 retains
+			// :KSW 02-Mar-06 removed Matt's retains - agreed with Matt as not needed
 			nibtoolErrorMessages = nil;
 		}
 	return self;
 }
-
-// added dealloc for memory management // :mattneub:20060223 
-- (void) dealloc {
+// *****************************************************************************
+// :mattneub:20060223 - added dealloc for memory management
+-(void)dealloc 
+{
 	[self->connectionsSortDescriptors release];
 	[self->propertiesSortDescriptors release];
 	[self->hierarchySortDescriptors release];
@@ -44,7 +47,6 @@
 	[self->nibtoolErrorMessages release];
 	[super dealloc];
 }
-
 // *****************************************************************************
 -(void)awakeFromNib
 {
@@ -125,8 +127,8 @@
 	// it is probably something like /var/tmp/folders.501/TemporaryItems
 	// NSString *nibReportsPath = [@"~/NibReporter_WorkFiles" stringByExpandingTildeInPath];
 	NSString *nibReportsPath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"NibReporter_WorkFiles"];
-	BOOL isDir = FALSE;
 	// :mattneub:20060223 
+	//BOOL isDir = FALSE;
 	// next line was meaningless since if test 1 succeeds (no file) test 2 will never be true...
 	// ...and if test 1 fails (there is a file) test 2 will never even be tested
 	// if(![fm fileExistsAtPath:nibReportsPath isDirectory:&isDir] && isDir)
