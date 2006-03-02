@@ -11,21 +11,33 @@
 // *****************************************************************************
 -(void)applicationDidFinishLaunching:(NSNotification*)notification
 {
+	//:KSW 26-Feb-06 - added next line for my XCode menu script so that it is activated above XCode
+	[NSApp activateIgnoringOtherApps:YES]; 
+
 	//DisplayMsg(@"Open a nib file using menu option: \n\nFile - Open or\nFile - Open Recent");
 	NSDocumentController *dc = [NSDocumentController sharedDocumentController];
 	// :mattneub:20060223 
 	// I found this whole automatic-opening foo really annoying:
 	// I'm the user, if I want to open something let me open it
 	// also it was making debugging damned near impossible
-	/*
+
+	//:KSW 02-March-06 - added alert to ask the user what to do
 	id doc;
 	NSArray *urls = [dc recentDocumentURLs];
 	if([urls count])
-		{	NSError *outError = nil;
-			doc = [dc openDocumentWithContentsOfURL:[[urls objectAtIndex:0] absoluteURL] display:YES error:&outError];
+		{	NSAlert *alert = [[NSAlert alloc] init];
+			[alert setMessageText:@"Open the previous Nib file?"];
+			[alert setInformativeText:	[NSString stringWithFormat:@"The previous nib file was:\n %@", [[urls objectAtIndex:0] path]]];
+			[alert addButtonWithTitle:@"Previous Nib File"];
+			[alert addButtonWithTitle:@"New Nib File"];
+			int rc = [alert runModal];
+			[alert release];
+			if(rc == NSAlertFirstButtonReturn)
+				{	NSError *outError = nil;
+					doc = [dc openDocumentWithContentsOfURL:[[urls objectAtIndex:0] absoluteURL] display:YES error:&outError];
+				}
 		}
 	if(!doc)	
-	 */
 		[dc openDocument:self]; //invoke the file open dialog
 }
 // *****************************************************************************
