@@ -16,6 +16,9 @@
 //and subsequently unarchiving the property data as and when needed. Although the code becomes only slightly
 //more complex I have left it as is to simplify access for report writing by future developers.
 
+//:KSW 04-Mar-06 added gDestination
+static NibObject *gDestination = nil;
+
 @implementation MyDocument
 // *****************************************************************************
 -(id)init
@@ -117,7 +120,53 @@
 					[connsArrayController setSelectionIndexes:nil];
 					[connsArrayController setSelectionIndex:0];
 				}
+			//KSW 06-Mar-06 added next 4 lines for case where no connections in connsArray - to remove previous highlighted row in olv
+			if([[connsArrayController arrangedObjects] count] == 0)
+				{	gDestination = nil;
+					[olv reloadData];
+				}
 		}
+}
+// *****************************************************************************
+//:KSW 04-Mar-06 added willDisplayCell - to highlight the otherObject (destination) of the Connection
+-(void)outlineView:(NSOutlineView*)outlineView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+	//NOTE WELL: this method uses an undocumented private method observedObject of _NSArrayControllerTreeNode
+
+	id observedObject = [item observedObject]; //observedObject is an undocumented method and causes the compiler to issue a warning
+	if(observedObject == gDestination) 
+		[cell setTextColor:[NSColor redColor]];
+	else
+		[cell setTextColor:[NSColor blackColor]];
+}
+// *****************************************************************************
+//:KSW 04-Mar-06 added toolTipForCell for OutlineView
+-(NSString*)outlineView:(NSOutlineView*)ov toolTipForCell:(NSCell*)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)tc item:(id)item mouseLocation:(NSPoint)mouseLocation
+{
+	return [cell stringValue];
+}
+// *****************************************************************************
+//:KSW 04-Mar-06 added tableViewSelectionDidChange
+-(void)tableViewSelectionDidChange:(NSNotification*)notification
+{
+	//whenever the selectedObject in the Connections is changed then highlight the destination object in the hierarchy (if it is showing)
+	NSTableView *tv = [notification object];
+	if(tv != tvConns)
+		return;
+	gDestination = nil;
+	int row = [tvConns selectedRow];
+	if((row < 0) || (row >= [[connsArrayController arrangedObjects] count]))
+		return;
+	NRConnector *connector = [[connsArrayController arrangedObjects] objectAtIndex:row];
+	NibObject *pOtherObj = [connector valueForKey:@"pOtherObj"];
+	gDestination = pOtherObj;
+	[olv reloadData]; //during reload the pOtherObj will be highlighted in red
+}
+// *****************************************************************************
+//:KSW 04-Mar-06 added toolTipForCell for TableViews - added delegate connections in nib file for 3 tableViews
+-(NSString*)tableView:(NSTableView*)tableView toolTipForCell:(NSCell*)cell rect:(NSRectPointer)rect tableColumn:(NSTableColumn*)tc row:(int)row mouseLocation:(NSPoint)mouseLocation
+{
+	return [cell stringValue];
 }
 // *****************************************************************************
 -(BOOL)readFromFileWrapper:(NSFileWrapper*)fileWrapper ofType:(NSString *)typeName error:(NSError **)outError

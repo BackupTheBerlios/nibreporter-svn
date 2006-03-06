@@ -4,6 +4,8 @@
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 
 #import "MyDocument.h"
+//KSW 6-Mar-06 added next line to include prototype(s)
+#include "Utils.h" 
 
 @implementation MyDocument (LoadData)
 // *****************************************************************************
@@ -206,7 +208,8 @@ return rc == NSAlertFirstButtonReturn ? 2 : rc == NSAlertSecondButtonReturn ? 1 
 										}
 								}
 							else
-								{	DiplayMsg(@"Cannot find ObjectId %ld", objectId);
+								{	//:KSW 06-Mar-06 corrected typo in next line, was Diplay
+									DisplayMsg(@"Cannot find ObjectId %ld", objectId);
 									continue;
 								}
 						}

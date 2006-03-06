@@ -3,8 +3,10 @@
 //  Created by Keith Wilson on 16/02/06.
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 
+//:KSW 06-Mar-06 added include Utils.h for SetFontSize proptotype 
 #import "NibClassesDialogController.h"
 #import "NibClass.h"
+#include "Utils.h"  
 
 @implementation NibClassesDialogController
 // *****************************************************************************
